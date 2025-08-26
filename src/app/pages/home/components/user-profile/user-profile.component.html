@@ -1,0 +1,53 @@
+<div class="user-profile">
+  <!-- Avatar + name -->
+  <div class="profile-header" (click)="toggleDropdown()">
+    <div class="avatar">
+      <img *ngIf="userProfile?.avatar; else initials" [src]="userProfile?.avatar" alt="User Avatar" />
+      <ng-template #initials>{{ getInitials() }}</ng-template>
+    </div>
+    <div class="user-info">
+      <p class="name">{{ userProfile?.firstName }} {{ userProfile?.lastName }}</p>
+      <p class="email">{{ userProfile?.email }}</p>
+    </div>
+    <span class="arrow" [class.open]="isDropdownOpen">▼</span>
+  </div>
+
+  <!-- Dropdown -->
+  <div class="dropdown" *ngIf="isDropdownOpen">
+    <div class="dropdown-section">
+      <h4>Preferences</h4>
+
+      <!-- Theme -->
+      <label>
+        Theme:
+        <select [(ngModel)]="currentTheme" (change)="onThemeChange(currentTheme)">
+          <option value="auto">Auto</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+
+      <!-- Temperature -->
+      <label>
+        Temperature Unit:
+        <select [(ngModel)]="temperatureUnit" (change)="onTemperatureChange(temperatureUnit)">
+          <option value="celsius">Celsius (°C)</option>
+          <option value="fahrenheit">Fahrenheit (°F)</option>
+        </select>
+      </label>
+
+      <!-- Notifications -->
+      <label>
+        <input type="checkbox" [checked]="notificationsEnabled" (change)="onNotificationsChange($event)" />
+        Enable Notifications
+      </label>
+    </div>
+
+    <div class="dropdown-section">
+      <h4>Account</h4>
+      <button (click)="editProfile()">✏️ Edit Profile</button>
+      <button (click)="openSettings()">⚙️ Settings</button>
+      <button (click)="logout()">🚪 Logout</button>
+    </div>
+  </div>
+</div>

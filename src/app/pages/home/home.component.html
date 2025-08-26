@@ -1,0 +1,96 @@
+<div class="home-container" [class.dark-theme]="isDarkTheme">
+  <!-- Header Section -->
+  <header class="home-header">
+    <div class="header-content">
+      <div class="logo-section">
+        <div class="logo">
+          <span class="weather-icon">🌤️</span>
+          <h1 class="app-title">WeatherPro</h1>
+        </div>
+        <app-current-time></app-current-time>
+      </div>
+
+      <div class="header-actions">
+        <!-- <app-user-profile></app-user-profile> -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="content-grid">
+      <!-- Left Column -->
+      <div class="left-column">
+        <!-- Search Section -->
+        <section class="search-section">
+          <app-weather-search (weatherSelected)="onWeatherSelected($event)"></app-weather-search>
+        </section>
+
+        <!-- Current Weather Display -->
+        <section class="current-weather-section">
+          <app-weather 
+            [weatherData]="currentWeatherData"
+            [isLoading]="isWeatherLoading"
+          ></app-weather>
+        </section>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+        <!-- Favorites Section -->
+        <section class="favorites-section">
+          <app-favorites (favoriteSelected)="onFavoriteSelected($event)"></app-favorites>
+        </section>
+
+        <!-- Weather Stats -->
+        <section class="stats-section">
+          <div class="stats-card">
+            <h3 class="stats-title">Today's Highlights</h3>
+            <div class="stats-grid" *ngIf="currentWeatherData">
+              <div class="stat-item">
+                <span class="stat-icon">💨</span>
+                <div class="stat-info">
+                  <span class="stat-value">{{ currentWeatherData.windSpeed }} km/h</span>
+                  <span class="stat-label">Wind Speed</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">💧</span>
+                <div class="stat-info">
+                  <span class="stat-value">{{ currentWeatherData.humidity }}%</span>
+                  <span class="stat-label">Humidity</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">👁️</span>
+                <div class="stat-info">
+                  <span class="stat-value">{{ currentWeatherData.visibility }} km</span>
+                  <span class="stat-label">Visibility</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <span class="stat-icon">🌡️</span>
+                <div class="stat-info">
+                  <span class="stat-value">{{ currentWeatherData.pressure }} hPa</span>
+                  <span class="stat-label">Pressure</span>
+                </div>
+              </div>
+            </div>
+            <div class="no-data" *ngIf="!currentWeatherData">
+              <span class="no-data-icon">🔍</span>
+              <p>Search for a city to see weather details</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isInitialLoading">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <p>Loading your weather dashboard...</p>
+    </div>
+  </div>
+</div>

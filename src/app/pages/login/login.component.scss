@@ -1,0 +1,96 @@
+ .auth-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  transition: all 0.3s ease;
+    background: #d7e3fc ;   
+       
+ 
+
+  .auth-left {
+    flex: 0.8;
+      background: linear-gradient(135deg, #334c8b, #6c7dd1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    color: #fff;
+
+    img, .auth-text {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      text-align: center;
+    }
+  }
+
+  .auth-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+     
+
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
+    }
+  }
+
+  // Tablet breakpoint
+  @media (max-width: 900px) {
+    flex-direction: column-reverse;
+
+    .auth-left {
+      flex: auto;
+      min-height: 30vh;
+      padding: 1.5rem;
+    }
+
+    .auth-right {
+      flex: auto;
+      min-height: 70vh;
+      padding: 2rem;
+    }
+  }
+
+  // Mobile breakpoint
+  @media (max-width: 600px) {
+    flex-direction: column-reverse;
+
+    .auth-left {
+      display: none; // hide image/text on phones
+    }
+
+    .auth-right {
+      flex: 1;
+      min-height: 100vh; // full screen
+      padding: 1.5rem;
+    }
+  }
+}
+
+/* Optional: inside the card */
+ .full-width {
+  width: 100%;
+}
+
+.switch-mode {
+  margin-top: 1rem;
+  color: #1976d2;
+  cursor: pointer;
+  text-decoration: underline;
+}
+ 
+
+

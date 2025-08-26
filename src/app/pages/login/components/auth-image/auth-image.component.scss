@@ -1,0 +1,284 @@
+.auth-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.weather-animation {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  margin-bottom: 2rem;
+
+  .sun {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, #ffd700, #ffed4a);
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+
+    .sun-rays {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(
+        circle,
+        transparent 40%,
+        rgba(255, 215, 0, 0.2) 41%,
+        rgba(255, 215, 0, 0.2) 45%,
+        transparent 46%
+      );
+      border-radius: 50%;
+      animation: rotate 30s linear infinite reverse;
+    }
+  }
+
+  .clouds {
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50px;
+      opacity: 0.9;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        background: inherit;
+        border-radius: 50px;
+      }
+
+      &.cloud1 {
+        width: 80px;
+        height: 30px;
+        top: 60px;
+        left: 20px;
+        animation: float 15s ease-in-out infinite;
+
+        &::before {
+          width: 40px;
+          height: 40px;
+          top: -20px;
+          left: 10px;
+        }
+
+        &::after {
+          width: 30px;
+          height: 30px;
+          top: -15px;
+          right: 15px;
+        }
+      }
+
+      &.cloud2 {
+        width: 60px;
+        height: 25px;
+        top: 40px;
+        left: 120px;
+        animation: float 12s ease-in-out infinite 2s;
+
+        &::before {
+          width: 35px;
+          height: 35px;
+          top: -18px;
+          left: 8px;
+        }
+
+        &::after {
+          width: 25px;
+          height: 25px;
+          top: -12px;
+          right: 12px;
+        }
+      }
+
+      &.cloud3 {
+        width: 70px;
+        height: 28px;
+        top: 100px;
+        left: 180px;
+        animation: float 18s ease-in-out infinite 4s;
+
+        &::before {
+          width: 38px;
+          height: 38px;
+          top: -19px;
+          left: 12px;
+        }
+
+        &::after {
+          width: 28px;
+          height: 28px;
+          top: -14px;
+          right: 10px;
+        }
+      }
+    }
+  }
+}
+
+.welcome-content {
+  text-align: center;
+  color: white;
+  max-width: 400px;
+
+  .welcome-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
+  }
+
+  .welcome-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+
+      .feature-icon {
+        font-size: 1.5rem;
+        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+      }
+    }
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(10px) translateY(-5px);
+  }
+  50% {
+    transform: translateX(-5px) translateY(-10px);
+  }
+  75% {
+    transform: translateX(-10px) translateY(-2px);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .auth-image-container {
+    padding: 1.5rem;
+  }
+
+  .weather-animation {
+    width: 250px;
+    height: 150px;
+    margin-bottom: 1.5rem;
+
+    .sun {
+      width: 60px;
+      height: 60px;
+      top: 15px;
+      right: 40px;
+
+      .sun-rays {
+        top: -8px;
+        left: -8px;
+        width: 76px;
+        height: 76px;
+      }
+    }
+
+    .clouds {
+      .cloud {
+        &.cloud1 {
+          width: 60px;
+          height: 22px;
+          top: 50px;
+          left: 15px;
+        }
+
+        &.cloud2 {
+          width: 45px;
+          height: 18px;
+          top: 35px;
+          left: 90px;
+        }
+
+        &.cloud3 {
+          width: 52px;
+          height: 20px;
+          top: 80px;
+          left: 140px;
+        }
+      }
+    }
+  }
+
+  .welcome-content {
+    .welcome-title {
+      font-size: 1.5rem;
+    }
+
+    .welcome-text {
+      font-size: 1rem;
+    }
+
+    .feature-list {
+      .feature-item {
+        font-size: 0.9rem;
+
+        .feature-icon {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .weather-animation {
+    width: 200px;
+    height: 120px;
+  }
+
+  .welcome-content {
+    .welcome-title {
+      font-size: 1.25rem;
+    }
+
+    .feature-list {
+      align-items: center;
+    }
+  }
+}

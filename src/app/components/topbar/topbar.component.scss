@@ -1,0 +1,8 @@
+.topbar { position: sticky; top: 0; z-index: 100; }
+.brand { display:flex; align-items:center; gap:.5rem; font-weight:600; }
+.title { letter-spacing:.5px; }
+.spacer { flex: 1 1 auto; }
+.avatar { border-radius: 9999px; }
+.avatar.big { width:40px; height:40px; }
+.menu-header{ display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; }
+:host ::ng-deep .mat-mdc-menu-content{ padding-top:0; }

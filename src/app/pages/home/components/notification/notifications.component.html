@@ -1,0 +1,32 @@
+<div class="notifications">
+  <h3>Notifications</h3>
+
+  <div *ngIf="unreadNotifications().length === 0; else notificationsList">
+    <p>No new notifications</p>
+  </div>
+
+  <ng-template #notificationsList>
+    <div
+      *ngFor="let notification of unreadNotifications(); trackBy: trackById"
+      class="notification"
+      [ngClass]="notification.type"
+    >
+      <div class="icon">{{ getNotificationIcon(notification.type) }}</div>
+      <div class="content">
+        <h4>{{ notification.title }}</h4>
+        <p>{{ notification.message }}</p>
+        <small>
+          {{ formatTimestamp(notification.timestamp) }}
+          <span *ngIf="notification.location"> • {{ notification.location }}</span>
+        </small>
+      </div>
+      <button
+        class="close-btn"
+        (click)="dismissNotification(notification)"
+        aria-label="Dismiss notification"
+      >
+        ×
+      </button>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,123 @@
+<div class="favorites">
+      <div class="favorites-header">
+        <h3 class="favorites-title">
+          <span class="title-icon">⭐</span>
+          Favorite Cities
+        </h3>
+        <button class="manage-btn" (click)="toggleManageMode()" [class.active]="isManageMode">
+          <span class="manage-icon">{{ isManageMode ? '✓' : '✏️' }}</span>
+          {{ isManageMode ? 'Done' : 'Manage' }}
+        </button>
+      </div>
+
+      <div class="favorites-content">
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="favoriteCities.length === 0">
+          <span class="empty-icon">📍</span>
+          <p class="empty-message">No favorite cities yet</p>
+          <p class="empty-hint">Search for cities and add them to favorites</p>
+        </div>
+
+        <!-- Favorites List -->
+        <div class="favorites-list" *ngIf="favoriteCities.length > 0">
+          <div 
+            *ngFor="let city of favoriteCities; trackBy: trackByCity"
+            class="favorite-item"
+            [class.loading]="city.isLoading"
+            [class.error]="city.error"
+            [class.manage-mode]="isManageMode"
+            (click)="onCityClick(city)"
+          >
+            <!-- Remove Button (Manage Mode) -->
+            <button 
+              *ngIf="isManageMode" 
+              class="remove-btn"
+              (click)="removeFavorite(city, $event)"
+              title="Remove from favorites"
+            >
+              <span class="remove-icon">✕</span>
+            </button>
+
+            <!-- Weather Icon -->
+            <div class="weather-icon">
+              <span *ngIf="!city.isLoading && !city.error && city.icon">{{ city.icon }}</span>
+              <span *ngIf="city.isLoading" class="loading-spinner"></span>
+              <span *ngIf="city.error" class="error-icon">⚠️</span>
+              <span *ngIf="!city.isLoading && !city.error && !city.icon" class="default-icon">🌤️</span>
+            </div>
+
+            <!-- City Info -->
+            <div class="city-info">
+              <div class="city-name">{{ city.name }}</div>
+              <div class="city-country">{{ city.country }}</div>
+            </div>
+
+            <!-- Weather Info -->
+            <div class="weather-info" *ngIf="!city.isLoading && !city.error">
+              <div class="temperature" *ngIf="city.temperature !== undefined">
+                <!-- {{ formatTemperature(city.temperature) }} -->
+              </div>
+              <div class="condition" *ngIf="city.condition">{{ city.condition }}</div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="weather-loading" *ngIf="city.isLoading">
+              <span class="loading-text">Loading...</span>
+            </div>
+
+            <!-- Error State -->
+            <div class="weather-error" *ngIf="city.error">
+              <span class="error-text">Error</span>
+            </div>
+
+            <!-- Favorite Button (Normal Mode) -->
+            <button 
+              *ngIf="!isManageMode" 
+              class="favorite-indicator"
+              title="Favorite city"
+            >
+              <span class="star-icon">⭐</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions" *ngIf="!isManageMode && favoriteCities.length > 0">
+          <button class="action-btn refresh-all" (click)="refreshAllFavorites()">
+            <span class="action-icon">🔄</span>
+            <span class="action-text">Refresh All</span>
+          </button>
+          <button class="action-btn add-favorite" (click)="showAddFavorite = !showAddFavorite">
+            <span class="action-icon">➕</span>
+            <span class="action-text">Add City</span>
+          </button>
+        </div>
+
+        <!-- Add Favorite Form -->
+        <div class="add-favorite-form" *ngIf="showAddFavorite">
+          <div class="form-header">
+            <h4 class="form-title">Add Favorite City</h4>
+            <button class="close-form" (click)="showAddFavorite = false">✕</button>
+          </div>
+          <div class="form-content">
+            <input
+              type="text"
+              [(ngModel)]="newCityName"
+              (keyup.enter)="addFavorite()"
+              placeholder="Enter city name..."
+              class="city-input"
+            />
+            <div class="form-actions">
+              <button 
+                class="add-btn"
+                (click)="addFavorite()"
+                [disabled]="!newCityName.trim() || isAddingFavorite"
+              >
+                <span *ngIf="!isAddingFavorite">Add</span>
+                <span *ngIf="isAddingFavorite" class="loading-spinner"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

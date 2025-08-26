@@ -1,0 +1,302 @@
+<!-- src/app/components/weather/weather.component.html -->
+<!-- <div class="weather-container">
+  
+  <mat-toolbar color="primary" class="weather-toolbar">
+    <mat-icon>wb_sunny</mat-icon>
+    <span class="toolbar-title">Weather App</span>
+    <span class="spacer"></span>
+    <mat-icon>location_on</mat-icon>
+  </mat-toolbar>
+
+ 
+  <mat-card class="search-card" appearance="outlined">
+    <mat-card-content>
+      <div class="search-section">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Enter city name</mat-label>
+          <input matInput 
+                 [formControl]="cityControl" 
+                 placeholder="e.g., London, New York, Paris"
+                 (keydown.enter)="onEnterPress()">
+          <mat-icon matSuffix>search</mat-icon>
+          <mat-error *ngIf="cityControl.hasError('required')">
+            City name is required
+          </mat-error>
+          <mat-error *ngIf="cityControl.hasError('minlength')">
+            City name must be at least 2 characters
+          </mat-error>
+        </mat-form-field>
+        
+        <button mat-raised-button 
+                color="primary" 
+                (click)="searchWeather()"
+                [disabled]="cityControl.invalid || loading()"
+                class="search-button">
+          <mat-icon>search</mat-icon>
+          Search
+        </button>
+      </div>
+ 
+      <div *ngIf="recentSearches().length > 0" class="recent-searches">
+        <span class="recent-label">Recent searches:</span>
+        <mat-chip-set class="search-chips">
+          <mat-chip *ngFor="let city of recentSearches()" 
+                   (click)="searchFromChip(city)"
+                   class="search-chip">
+            <mat-icon matChipAvatar>location_city</mat-icon>
+            {{city}}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+
+     
+      <div class="available-cities">
+        <small>Available cities: London, New York, Paris, Tokyo, Sydney</small>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+ 
+  <div *ngIf="loading()" class="loading-container">
+    <mat-spinner diameter="50" color="primary"></mat-spinner>
+    <p>Loading weather data...</p>
+  </div>
+
+ 
+     <mat-card *ngIf="currentWeather() && !loading()" class="weather-card" appearance="outlined">
+    <mat-card-header class="weather-header">
+      <div mat-card-avatar class="weather-avatar">
+        <mat-icon [class]="'weather-icon ' + weatherIconClass()">{{weatherIconClass()}}</mat-icon>
+      </div>
+      <mat-card-title class="location-title">
+        {{currentWeather()!.location}}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{currentWeather()!.date | date:'fullDate'}}
+      </mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="current-weather">
+       
+        <div class="temperature-section">
+          <div class="main-temp">{{currentWeather()!.temperature}}°C</div>
+          <div class="description">{{currentWeather()!.description}}</div>
+          <div class="feels-like">Feels like {{currentWeather()!.feelsLike}}°C</div>
+        </div>
+
+        <mat-divider class="weather-divider"></mat-divider>
+
+         
+        <mat-grid-list cols="2" rowHeight="80px" class="weather-details">
+          <mat-grid-tile>
+            <div class="detail-item">
+              <mat-icon>water_drop</mat-icon>
+              <div class="detail-content">
+                <div class="detail-value">{{currentWeather()!.humidity}}%</div>
+                <div class="detail-label">Humidity</div>
+              </div>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <div class="detail-item">
+              <mat-icon>air</mat-icon>
+              <div class="detail-content">
+                <div class="detail-value">{{currentWeather()!.windSpeed}} km/h</div>
+                <div class="detail-label">Wind Speed</div>
+              </div>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <div class="detail-item">
+              <mat-icon>compress</mat-icon>
+              <div class="detail-content">
+                <div class="detail-value">{{currentWeather()!.pressure}} hPa</div>
+                <div class="detail-label">Pressure</div>
+              </div>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <div class="detail-item">
+              <mat-icon>visibility</mat-icon>
+              <div class="detail-content">
+                <div class="detail-value">{{currentWeather()!.visibility}} km</div>
+                <div class="detail-label">Visibility</div>
+              </div>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+   
+  <mat-card *ngIf="forecast().length > 0 && !loading()" class="forecast-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>date_range</mat-icon>
+        5-Day Forecast
+      </mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="forecast-list">
+        <div *ngFor="let day of forecast()" class="forecast-item">
+          <div class="forecast-day">{{day.date}}</div>
+          <div class="forecast-icon">
+            <mat-icon>{{getIconForWeather(day.icon)}}</mat-icon>
+          </div>
+          <div class="forecast-temps">
+            <span class="max-temp">{{day.maxTemp}}°</span>
+            <span class="min-temp">{{day.minTemp}}°</span>
+          </div>
+          <div class="forecast-desc">{{day.description}}</div>
+          <div class="forecast-humidity">
+            <mat-icon class="small-icon">water_drop</mat-icon>
+            {{day.humidity}}%
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div> -->
+<div class="weather-container">
+  <!-- Search Section -->
+  <mat-card class="search-card">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Enter City</mat-label>
+      <input matInput [formControl]="cityControl" (keyup.enter)="onEnterPress()">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="onEnterPress()" [disabled]="cityControl.invalid || isLoading">
+      Search
+    </button>
+  </mat-card>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Current Weather -->
+  <div class="weather-display">
+      <!-- Loading State -->
+      <div class="loading-state" *ngIf="isLoading">
+        <div class="loading-animation">
+          <div class="loading-icon">🌤️</div>
+          <div class="loading-spinner"></div>
+        </div>
+        <p class="loading-text">Getting weather data...</p>
+      </div>
+
+      <!-- Weather Content -->
+      <div class="weather-content" *ngIf="!isLoading && weatherData">
+        <!-- Main Weather Info -->
+        <div class="main-weather">
+          <div class="weather-header">
+            <div class="location-info">
+              <h2 class="location-name">{{ weatherData.location }}</h2>
+              <p class="location-country">{{ weatherData.country }}</p>
+            </div>
+            <button class="favorite-btn" (click)="toggleFavorite()" [class.favorited]="isFavorited">
+              <span class="favorite-icon">{{ isFavorited ? '⭐' : '☆' }}</span>
+            </button>
+          </div>
+
+          <div class="current-weather">
+            <div class="weather-main">
+              <div class="weather-icon-large">
+                {{ getWeatherIcon(weatherData.condition) }}
+              </div>
+              <div class="weather-primary">
+                <div class="temperature-main">
+                  {{ formatTemperature(weatherData.temperature) }}
+                </div>
+                <div class="weather-condition">{{ weatherData.condition }}</div>
+                <div class="weather-description">{{ weatherData.description }}</div>
+              </div>
+            </div>
+            
+            <div class="feels-like">
+              Feels like {{ formatTemperature(weatherData.feelsLike) }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Weather Info -->
+        <div class="additional-info">
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-icon">🌅</span>
+              <div class="info-details">
+                <span class="info-label">Sunrise</span>
+                <span class="info-value">{{ weatherData.sunrise }}</span>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <span class="info-icon">🌇</span>
+              <div class="info-details">
+                <span class="info-label">Sunset</span>
+                <span class="info-value">{{ weatherData.sunset }}</span>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <span class="info-icon">☀️</span>
+              <div class="info-details">
+                <span class="info-label">UV Index</span>
+                <span class="info-value">{{ weatherData.uvIndex }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5-Day Forecast -->
+        <div class="forecast-section" *ngIf="weatherData.forecast">
+          <h3 class="forecast-title">5-Day Forecast</h3>
+          <div class="forecast-list">
+            <div 
+              *ngFor="let day of weatherData.forecast" 
+              class="forecast-item"
+            >
+              <div class="forecast-date">{{ formatForecastDate(day.date) }}</div>
+              <div class="forecast-icon">{{ getWeatherIcon(day.condition) }}</div>
+              <div class="forecast-temps">
+                <span class="forecast-high">{{ formatTemperature(day.high) }}</span>
+                <span class="forecast-low">{{ formatTemperature(day.low) }}</span>
+              </div>
+              <div class="forecast-condition">{{ day.condition }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div class="error-state" *ngIf="!isLoading && !weatherData">
+        <div class="error-icon">⚠️</div>
+        <h3 class="error-title">Unable to load weather data</h3>
+        <p class="error-message">Please try searching for a different location</p>
+      </div>
+
+      <!-- No Data State -->
+      <div class="no-data-state" *ngIf="!isLoading && !weatherData && !hasError">
+        <div class="no-data-icon">🌍</div>
+        <h3 class="no-data-title">Welcome to WeatherPro</h3>
+        <p class="no-data-message">Search for a city to get started with weather information</p>
+        <div class="suggested-cities">
+          <h4 class="suggestions-title">Popular searches:</h4>
+          <div class="suggestions-list">
+            <button 
+              *ngFor="let city of suggestedCities" 
+              class="suggestion-btn"
+              (click)="searchSuggestion(city)"
+            >
+              {{ city }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
