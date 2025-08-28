@@ -140,3 +140,40 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     }
   }
 }*/
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-user-profile',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
+  ],
+  templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.scss']
+})
+export class UserProfileComponent implements OnInit {
+  user = {
+    username: "john_doe",
+    email: "john@example.com"
+  };
+
+  ngOnInit(): void {
+    // këtu lidhet me backend për të marrë user details
+  }
+
+  saveProfile() {
+    console.log("Updated profile:", this.user);
+    // thirr API për update profile
+  }
+}

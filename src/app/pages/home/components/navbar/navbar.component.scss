@@ -1,0 +1,31 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: linear-gradient(90deg, #f0f4f9, #cfe0f5);
+  border-bottom: 1px solid #ddd;
+
+  .logo {
+    width: 40px;
+    margin-right: 10px;
+  }
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .navbar-center {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+}
+

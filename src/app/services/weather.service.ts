@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Weather } from '../interfaces/weather.interface';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class WeatherService {
-  private apiKey = 'YOUR_API_KEY'; // 🔑 put your OpenWeather API key here
-  private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+  private apiUrl = 'http://localhost:5000/api/weather'; // backend API
 
   constructor(private http: HttpClient) {}
 
-  // ✅ Get current weather by location
-  async getCurrentWeather(location: string): Promise<any> {
-    const url = `${this.apiUrl}?q=${location}&appid=${this.apiKey}&units=metric`;
-    return this.http.get(url).toPromise();
+  getWeather(city: string): Observable<Weather> {
+    return this.http.get<Weather>(`${this.apiUrl}?city=${city}`);
   }
 }
