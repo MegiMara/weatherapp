@@ -1,4 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+ 
+:root {
+ 
+  --weather-primary-color: #3B82F6;
+  --weather-primary-color-light: rgba(59, 130, 246, 0.1);
+  --weather-bg-primary: #FFFFFF;
+  --weather-bg-secondary: #F8FAFC;
+  --weather-bg-tertiary: #F1F5F9;
+  --weather-bg-hover: #E2E8F0;
+  --weather-text-primary: #1E293B;
+  --weather-text-secondary: #64748B;
+  --weather-border-color: #E2E8F0;
+  --weather-error-color: #EF4444;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+[data-theme="dark"] {
+  // Dark theme variables for weather app
+  --weather-primary-color: #60A5FA;
+  --weather-primary-color-light: rgba(96, 165, 250, 0.1);
+  --weather-bg-primary: #0F172A;
+  --weather-bg-secondary: #1E293B;
+  --weather-bg-tertiary: #334155;
+  --weather-bg-hover: #475569;
+  --weather-text-primary: #F8FAFC;
+  --weather-text-secondary: #CBD5E1;
+  --weather-border-color: #475569;
+  --weather-error-color: #F87171;
+}
+
+ 
+// * {
+//   box-sizing: border-box;
+// }
+ 

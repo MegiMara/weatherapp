@@ -1,73 +1,40 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-
-export interface FavoriteCity {
-  id: number;
-  name: string;
-  country: string;
-}
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { UserProfile } from '../models/weather.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserService {
-  private readonly UNIT_KEY = 'temperatureUnit';
-  private readonly FAVORITES_KEY = 'favoriteCities';
-  private readonly LAST_LOCATION_KEY = 'lastLocation';
+  private apiUrl = 'http://localhost:3000/api'; // Replace with your backend URL
+  private userProfileSubject = new BehaviorSubject<UserProfile | null>(null);
+  public userProfile$ = this.userProfileSubject.asObservable();
 
-  private temperatureUnit$: BehaviorSubject<'celsius' | 'fahrenheit'>;
-
-  constructor() {
-    const savedUnit =
-      (localStorage.getItem(this.UNIT_KEY) as 'celsius' | 'fahrenheit') || 'celsius';
-    this.temperatureUnit$ = new BehaviorSubject<'celsius' | 'fahrenheit'>(savedUnit);
-
-    if (!localStorage.getItem(this.FAVORITES_KEY)) {
-      localStorage.setItem(this.FAVORITES_KEY, JSON.stringify([]));
-    }
+  constructor(private http: HttpClient) {
+    this.loadUserProfile();
   }
 
-  /** ============ Temperature Unit ============ */
-  getTemperatureUnit(): Observable<'celsius' | 'fahrenheit'> {
-    return this.temperatureUnit$.asObservable();
+  getUserProfile(): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.apiUrl}/user/profile`);
   }
 
-  setTemperatureUnit(unit: 'celsius' | 'fahrenheit'): void {
-    localStorage.setItem(this.UNIT_KEY, unit);
-    this.temperatureUnit$.next(unit);
+  updateFavorites(cityId: number, isAdd: boolean): Observable<UserProfile> {
+    const body = { cityId, action: isAdd ? 'add' : 'remove' };
+    return this.http.post<UserProfile>(`${this.apiUrl}/user/favorites`, body);
   }
 
-  /** ============ Favorite Cities ============ */
-  async getFavoriteCities(): Promise<FavoriteCity[]> {
-    const data = localStorage.getItem(this.FAVORITES_KEY);
-    return data ? JSON.parse(data) : [];
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/logout`, {});
   }
 
-  async addFavoriteCity(city: { name: string; country: string }): Promise<void> {
-    const favorites = await this.getFavoriteCities();
-    const exists = favorites.some(
-      (f: FavoriteCity) => f.name.toLowerCase() === city.name.toLowerCase()
-    );
-
-    if (!exists) {
-      favorites.push({ id: Date.now(), ...city });
-      localStorage.setItem(this.FAVORITES_KEY, JSON.stringify(favorites));
-    }
+  private loadUserProfile(): void {
+    this.getUserProfile().subscribe(profile => {
+      this.userProfileSubject.next(profile);
+    });
   }
 
-  async removeFavoriteCity(id: number): Promise<void> {
-    let favorites = await this.getFavoriteCities();
-    favorites = favorites.filter((f: FavoriteCity) => f.id !== id);
-    localStorage.setItem(this.FAVORITES_KEY, JSON.stringify(favorites));
-  }
-
-  /** ============ Last Location ============ */
-  async getUserPreferences(): Promise<{ lastLocation?: string }> {
-    const lastLocation = localStorage.getItem(this.LAST_LOCATION_KEY);
-    return { lastLocation: lastLocation || undefined };
-  }
-
-  async updateLastLocation(location: string): Promise<void> {
-    localStorage.setItem(this.LAST_LOCATION_KEY, location);
+  setUserProfile(profile: UserProfile): void {
+    this.userProfileSubject.next(profile);
   }
 }

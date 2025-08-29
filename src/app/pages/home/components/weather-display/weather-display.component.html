@@ -1,0 +1,74 @@
+<div class="weather-display" [class]="getWeatherBackgroundClass()" *ngIf="weatherData; else noWeatherState">
+  <div class="weather-header">
+    <div class="location-info">
+      <h2 class="city-name">{{weatherData.city}}</h2>
+      <p class="country">{{weatherData.country}}</p>
+    </div>
+    <button 
+      class="favorite-btn" 
+      (click)="toggleFavorite()"
+      [class.active]="isFavorite"
+      [title]="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
+    >
+      <span class="heart">{{isFavorite ? '❤️' : '🤍'}}</span>
+    </button>
+  </div>
+
+  <div class="weather-main">
+    <div class="temperature-section">
+      <span class="temperature">{{getTemperatureDisplay(weatherData.temperature)}}</span>
+      <div class="condition-info">
+        <span class="condition">{{weatherData.condition}}</span>
+        <span class="description">{{weatherData.description}}</span>
+      </div>
+    </div>
+    <div class="weather-icon">
+      <span class="main-icon">{{getWeatherEmoji(weatherData.condition)}}</span>
+    </div>
+  </div>
+
+  <div class="weather-details">
+    <div class="detail-grid">
+      <div class="detail-item">
+        <span class="label">Feels Like</span>
+        <span class="value">{{getTemperatureDisplay(weatherData.temperature + 2)}}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Humidity</span>
+        <span class="value">{{weatherData.humidity}}%</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Wind Speed</span>
+        <span class="value">{{weatherData.windSpeed}} km/h</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Wind Direction</span>
+        <span class="value">{{getWindDirection(weatherData.windDirection)}}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Pressure</span>
+        <span class="value">{{weatherData.pressure}} hPa</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Visibility</span>
+        <span class="value">{{weatherData.visibility}} km</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">UV Index</span>
+        <span class="value">{{weatherData.uvIndex}}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Updated</span>
+        <span class="value">{{weatherData.timestamp | date:'short'}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noWeatherState>
+  <div class="no-weather-state">
+    <span class="weather-icon-large">🌤️</span>
+    <h3>Welcome to WeatherApp</h3>
+    <p>Search for a city or select from your favorites to see the weather</p>
+  </div>
+</ng-template>

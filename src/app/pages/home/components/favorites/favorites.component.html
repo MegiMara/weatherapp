@@ -1,56 +1,41 @@
- <div class="favorites-overlay" (click)="close.emit()">
-      <div class="favorites-panel" (click)="$event.stopPropagation()">
-        <div class="favorites-header">
-          <h2>Favorite Cities</h2>
-          <button class="close-btn" (click)="close.emit()">
-            <svg viewBox="0 0 24 24" fill="none">
-              <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+<div class="favorites-container">
+  <h3 class="favorites-title">Favorite Cities</h3>
+  
+  <div class="favorites-list" *ngIf="favoriteCities.length > 0; else emptyState">
+    <div 
+      *ngFor="let city of favoriteCities" 
+      class="favorite-item"
+      (click)="selectCity(city)"
+    >
+      <div class="city-info">
+        <div class="city-header">
+          <h4 class="city-name">{{city.name}}</h4>
+          <button 
+            class="remove-btn" 
+            (click)="removeFavorite(city.id, $event)"
+            title="Remove from favorites"
+          >
+            ×
           </button>
         </div>
-        
-        <div class="favorites-content">
-          <div *ngIf="isLoading" class="loading-state">
-            <div class="loading-spinner"></div>
-            <p>Loading favorites...</p>
-          </div>
-          
-          <div *ngIf="!isLoading && favorites.length === 0" class="empty-state">
-            <svg class="empty-icon" viewBox="0 0 24 24" fill="none">
-              <path d="M20.84 4.61A5.5 5.5 0 0 0 16.5 2.5C15.09 2.5 13.81 3.07 12.84 4.02L12 4.87L11.16 4.02A5.5 5.5 0 0 0 6.84 2.5A5.5 5.5 0 0 0 1.5 8C1.5 8.91 1.77 9.75 2.25 10.44L12 21L21.75 10.44C22.23 9.75 22.5 8.91 22.5 8A5.5 5.5 0 0 0 20.84 4.61Z" 
-                    stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-            </svg>
-            <h3>No Favorites Yet</h3>
-            <p>Add cities to your favorites by clicking the heart icon on the weather card.</p>
-          </div>
-          
-          <div *ngIf="!isLoading && favorites.length > 0" class="favorites-list">
-            <div 
-              *ngFor="let city of favorites; trackBy: trackByFavorite"
-              class="favorite-item"
-              (click)="selectCity(city)"
-            >
-              <div class="favorite-info">
-                <h3 class="city-name">{{ city.name }}</h3>
-                <span class="country-name">{{ city.country }}</span>
-              </div>
-              <div class="favorite-actions">
-                <button 
-                  class="remove-btn" 
-                  (click)="removeFavorite(city, $event)"
-                  title="Remove from favorites"
-                >
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <polyline points="3,6 5,6 21,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M19,6V20A2,2 0 0,1 17,22H7A2,2 0 0,1 5,20V6M8,6V4A2,2 0 0,1 10,2H14A2,2 0 0,1 16,4V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <line x1="10" y1="11" x2="10" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <line x1="14" y1="11" x2="14" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
+        <p class="country">{{city.country}}</p>
+        <div class="weather-info">
+          <span class="temperature">{{getTemperatureDisplay(city.temperature)}}</span>
+          <span class="condition">{{city.condition}}</span>
         </div>
       </div>
+      <div class="weather-icon">
+        <span class="icon">{{getWeatherEmoji(city.condition)}}</span>
+      </div>
     </div>
+  </div>
+  
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <span class="empty-icon">⭐</span>
+      <p>No favorite cities yet</p>
+      <small>Search for cities and add them to favorites</small>
+    </div>
+  </ng-template>
+</div>
+

@@ -1,0 +1,6 @@
+ <button class="notifications-toggle" 
+            (click)="toggleNotifications()" 
+            [class.enabled]="notificationsEnabled"
+            [title]="notificationsEnabled ? 'Disable notifications' : 'Enable notifications'">
+      <span class="icon">{{notificationsEnabled ? '🔔' : '🔕'}}</span>
+    </button>

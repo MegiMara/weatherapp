@@ -1,0 +1,26 @@
+<div class="profile-container">
+      <div class="profile-picture" (click)="toggleDropdown()">
+        <img [src]="userProfile?.avatar || 'assets/default-avatar.png'" 
+             [alt]="userProfile?.name || 'User'" />
+      </div>
+      
+      <div class="dropdown" [class.show]="showDropdown" *ngIf="userProfile">
+        <div class="dropdown-content">
+          <div class="user-info">
+            <img [src]="userProfile.avatar" [alt]="userProfile.name" />
+            <div class="user-details">
+              <h4>{{userProfile.name}}</h4>
+              <p>{{userProfile.email}}</p>
+            </div>
+          </div>
+          <hr>
+          <button class="dropdown-item" (click)="logout()">
+            <span class="icon">🚪</span>
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+

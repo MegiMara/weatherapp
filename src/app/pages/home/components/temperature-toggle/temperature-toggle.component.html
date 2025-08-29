@@ -1,0 +1,3 @@
+<button class="temp-toggle" (click)="toggleUnit()" [title]="'Switch to ' + (currentUnit === 'celsius' ? 'Fahrenheit' : 'Celsius')">
+      <span class="unit">{{currentUnit === 'celsius' ? '°C' : '°F'}}</span>
+    </button>

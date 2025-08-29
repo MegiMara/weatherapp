@@ -1,16 +1,15 @@
- .auth-container {
+// login.component.scss - Your login styles isolated
+.auth-container {
   display: flex;
   height: 100vh;
   width: 100%;
   overflow: hidden;
   transition: all 0.3s ease;
-    background: #d7e3fc ;   
-       
- 
+  background: #d7e3fc;
 
   .auth-left {
     flex: 0.8;
-      background: linear-gradient(135deg, #334c8b, #6c7dd1);
+    background: linear-gradient(135deg, #334c8b, #6c7dd1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,7 +21,7 @@
       max-width: 100%;
       height: auto;
       display: block;
-      text-align: center;
+      text-align: left;
     }
   }
 
@@ -34,17 +33,17 @@
     padding: 2rem;
     transition: all 0.3s ease;
     overflow-y: auto;
-     
 
     .auth-card {
       width: 100%;
-      max-width: 400px;
-      padding: 2rem;
-      text-align: center;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      max-width: 400px;  
+      padding: 3rem 2.5rem;  
+      text-align: left;
+      border-radius: 20px;  
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
       background-color: #ffffff;
     }
+
   }
 
   // Tablet breakpoint
@@ -76,12 +75,306 @@
       flex: 1;
       min-height: 100vh; // full screen
       padding: 1.5rem;
+
+      .auth-card {
+        max-width: 100%;
+        padding: 2rem 1.5rem;
+      }
     }
   }
 }
 
-/* Optional: inside the card */
- .full-width {
+// Welcome Section
+.welcome-section {
+  text-align: center;
+  margin-bottom: 2.5rem;
+
+  h1 {
+    font-size: 2.25rem; // Large, bold title
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #6b7280;
+    font-weight: 400;
+    margin: 0;
+  }
+}
+
+// Tab System (Sign In / Sign Up)
+.auth-tabs {
+  display: flex;
+  margin-bottom: 2.5rem;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  padding: 0.4rem;
+  border: 1px solid #e2e8f0;
+
+  .tab-button {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.active {
+      background-color: #ffffff;
+      color: #1e293b;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+      font-weight: 700;
+    }
+
+    &:hover:not(.active) {
+      color: #374151;
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+// Form Fields
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+
+  label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #374151;
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .form-input {
+    width: 100%;
+    height: 3.5rem; // Specific height for consistency
+    padding: 0 1rem 0 3.5rem; // Space for left icon
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: #f9fafb;
+    color: #374151;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #6366f1;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+      font-size: 0.95rem;
+    }
+
+    // For inputs with right icon (password)
+    &.has-end-icon {
+      padding-right: 3.5rem;
+    }
+  }
+
+  // Left Icons
+  .input-icon-start {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.25rem;
+    color: #9ca3af;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  // Right Icons (Eye for password)
+  .input-icon-end {
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.25rem;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    z-index: 2;
+
+    &:hover {
+      color: #6b7280;
+      background-color: rgba(107, 114, 128, 0.1);
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+  }
+}
+
+// Remember Me & Forgot Password Row
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+      accent-color: #6366f1;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    label {
+      font-size: 0.95rem;
+      color: #4b5563;
+      cursor: pointer;
+      margin: 0;
+      font-weight: 400;
+    }
+  }
+
+  .forgot-link {
+    font-size: 0.95rem;
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+      color: #4f46e5;
+    }
+  }
+}
+
+// Main Sign In Button
+.primary-button {
+  width: 100%;
+  height: 3.5rem;
+  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  position: relative;
+
+  &:hover {
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  // Loading state
+  &.loading {
+    color: transparent;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+// Bottom Sign Up Link
+.auth-switch {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 1rem;
+
+  .switch-text {
+    color: #6b7280;
+    margin-right: 0.5rem;
+  }
+
+  .switch-link {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+      color: #4f46e5;
+    }
+  }
+}
+
+// Error States
+.form-input.error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+
+  &:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+  }
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::before {
+    content: '⚠️';
+    font-size: 0.875rem;
+  }
+}
+
+// Animations
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+// Legacy support (keeping your old classes)
+.full-width {
   width: 100%;
 }
 
@@ -91,6 +384,4 @@
   cursor: pointer;
   text-decoration: underline;
 }
- 
-
 
