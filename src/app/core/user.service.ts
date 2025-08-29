@@ -7,7 +7,7 @@ import { UserProfile } from '../models/weather.model';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/api'; // Replace with your backend URL
+  private apiUrl = 'https://localhost:7121/api/User/profile'; // Replace with your backend URL
   private userProfileSubject = new BehaviorSubject<UserProfile | null>(null);
   public userProfile$ = this.userProfileSubject.asObservable();
 

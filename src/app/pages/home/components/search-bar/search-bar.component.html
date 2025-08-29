@@ -1,26 +1,34 @@
 <div class="search-container">
-      <div class="search-input-container">
-        <input 
-          type="text"
-          [formControl]="searchControl"
-          placeholder="Search for cities..."
-          class="search-input"
-          (focus)="onFocus()"
-          (blur)="onBlur()"
-        />
-    <span class="material-icons search-icon">search</span>
+  <div class="search-input-container">
+    <input 
+      type="text"
+      [formControl]="searchControl"
+      placeholder="Search for cities..."
+      class="search-input"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (keydown.enter)="searchCity()"
+    />
+    <span 
+      class="material-icons search-icon"
+      (click)="searchCity()"
+    >
+      search
+    </span>
+  </div>
 
-      </div>
-      
-      <div class="suggestions" *ngIf="showSuggestions && suggestions.length > 0">
-        <button 
-          *ngFor="let city of suggestions" 
-          class="suggestion-item"
-          (click)="selectCity(city)"
-        >
-          <span class="city-name">{{city.name}}</span>
-          <span class="country">{{city.country}}</span>
-        </button>
-      </div>
-    </div>
+  <div class="suggestions" *ngIf="showSuggestions && suggestions.length > 0">
+    <button 
+      *ngFor="let city of suggestions" 
+      class="suggestion-item"
+      type="button"
+      (mousedown)="selectCity(city)"
+    >
+      <span class="city-name">{{city.name}}</span>
+      <span class="country">{{city.country}}</span>
+    </button>
+  </div>
+</div>
+
+
 

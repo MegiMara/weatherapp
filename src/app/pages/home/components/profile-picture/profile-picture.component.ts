@@ -11,7 +11,7 @@ import { UserProfile } from '../../../../models/weather.model';
   imports: [CommonModule],
   templateUrl:'./profile-picture.component.html',
   styleUrls:['./profile-picture.component.scss']
-  })
+})
 export class ProfilePictureComponent implements OnInit, OnDestroy {
   userProfile: UserProfile | null = null;
   showDropdown = false;
@@ -38,8 +38,14 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.userService.logout().subscribe(() => {
-      // Handle logout redirect
       window.location.href = '/login';
     });
   }
+
+  closeDropdown(): void {
+    this.showDropdown = false;
+  }
 }
+
+
+

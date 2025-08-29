@@ -7,7 +7,7 @@ import { WeatherData, City } from '../models/weather.model';
   providedIn: 'root'
 })
 export class WeatherService {
-  private apiUrl = 'http://localhost:3000/api'; // Replace with your backend URL
+  private apiUrl = 'https://localhost:7121/api/Weather'; // Replace with your backend URL
   private currentWeatherSubject = new BehaviorSubject<WeatherData | null>(null);
   public currentWeather$ = this.currentWeatherSubject.asObservable();
 
@@ -17,10 +17,10 @@ export class WeatherService {
     return this.http.get<WeatherData>(`${this.apiUrl}/weather/${cityId}`);
   }
 
-  searchCities(query: string): Observable<City[]> {
-    const params = new HttpParams().set('q', query);
-    return this.http.get<City[]>(`${this.apiUrl}/cities/search`, { params });
-  }
+ searchCities(query: string): Observable<City[]> {
+  const params = new HttpParams().set('q', query);
+  return this.http.get<City[]>(`${this.apiUrl}/search`, { params }); // ✅ ndryshuar URL
+}
 
   getForecast(cityId: number, days: number = 7): Observable<WeatherData[]> {
     const params = new HttpParams().set('days', days.toString());

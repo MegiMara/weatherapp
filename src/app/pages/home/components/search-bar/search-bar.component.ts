@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
 import { WeatherService } from '../../../../services/weather.service';
 import { City } from '../../../../models/weather.model';
@@ -30,12 +30,12 @@ export class SearchBarComponent implements OnInit, OnDestroy {
           if (query && query.length >= 2) {
             return this.weatherService.searchCities(query);
           }
-          return [];
+          return of([]);
         }),
         takeUntil(this.destroy$)
       )
       .subscribe(cities => {
-        this.suggestions = cities.slice(0, 5); // Limit to 5 suggestions
+        this.suggestions = cities.slice(0, 5);
         this.showSuggestions = this.suggestions.length > 0;
       });
   }
@@ -52,19 +52,49 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   onBlur(): void {
-    // Delay hiding to allow click events on suggestions
     setTimeout(() => {
       this.showSuggestions = false;
-    }, 200);
+    }, 250);
   }
 
   selectCity(city: City): void {
-    this.searchControl.setValue(city.name);
+    this.searchControl.setValue(city.name, { emitEvent: false }); // mos e trigger valueChanges përsëri
     this.showSuggestions = false;
-    
-    // Load weather for selected city
+
     this.weatherService.getCurrentWeather(city.id).subscribe(weather => {
       this.weatherService.setCurrentWeather(weather);
     });
   }
-}
+
+//   searchCity(): void {
+//     const query = this.searchControl.value;
+//     if (query && query.length >= 2) {
+//       this.weatherService.searchCities(query).subscribe(cities => {
+//         this.suggestions = cities.slice(0, 5);
+//         this.showSuggestions = this.suggestions.length > 0;
+
+//         // Zgjidh qytetin e parë automatikisht
+//         if (cities.length > 0) {
+//           this.selectCity(cities[0]);
+//         }
+//       });
+//     }
+//   }
+// }
+
+ searchCity(): void {
+    const query = this.searchControl.value;
+    console.log('Searching for:', query);  // kontrollon input-in
+
+    if (query && query.length >= 2) {
+      this.weatherService.searchCities(query).subscribe(cities => {
+        console.log('Cities from backend:', cities);  // kontrollon përgjigjen nga backend
+        this.suggestions = cities.slice(0, 5);
+        this.showSuggestions = this.suggestions.length > 0;
+
+        if (cities.length > 0) {
+          this.selectCity(cities[0]);
+        }
+      });
+    }
+  }}

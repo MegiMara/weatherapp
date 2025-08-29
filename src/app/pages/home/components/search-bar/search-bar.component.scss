@@ -2,41 +2,35 @@
   position: relative;
   width: 100%;
   max-width: 400px;
+  margin: 0 auto;
 }
 
 .search-input-container {
-  position: relative;
   display: flex;
   align-items: center;
-}
+  position: relative;
 
-.search-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  padding-right: 2.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 25px;
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  font-size: 0.875rem;
-  outline: none;
-  transition: all 0.2s ease;
+  .search-input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
 
-  &:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--primary-color-light);
+    &:focus {
+      border-color: #007bff;
+    }
   }
 
-  &::placeholder {
-    color: var(--text-secondary);
+  .search-icon {
+    position: absolute;
+    right: 0.8rem;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
   }
-}
-
-.search-icon {
-  position: absolute;
-  right: 1rem;
-  color: var(--text-secondary);
-  pointer-events: none;
 }
 
 .suggestions {
@@ -44,41 +38,38 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  margin-top: 0.25rem;
-  overflow: hidden;
-}
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
 
-.suggestion-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: none;
-  background: none;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  .suggestion-item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.95rem;
 
-  &:hover {
-    background: var(--bg-hover);
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
+    .city-name {
+      font-weight: 500;
+    }
+
+    .country {
+      font-size: 0.85rem;
+      color: #666;
+    }
   }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--border-color);
-  }
 }
 
-.city-name {
-  font-weight: 500;
-}
 
-.country {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-}

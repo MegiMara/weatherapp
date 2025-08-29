@@ -17,5 +17,8 @@
 
   .icon {
     font-size: 1.2rem;
+    color: var(--icon-color);
+    transition: color 0.2s ease;
   }
 }
+

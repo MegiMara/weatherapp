@@ -1,6 +1,4 @@
- 
 :root {
- 
   --weather-primary-color: #3B82F6;
   --weather-primary-color-light: rgba(59, 130, 246, 0.1);
   --weather-bg-primary: #FFFFFF;
@@ -14,7 +12,6 @@
 }
 
 [data-theme="dark"] {
-  // Dark theme variables for weather app
   --weather-primary-color: #60A5FA;
   --weather-primary-color-light: rgba(96, 165, 250, 0.1);
   --weather-bg-primary: #0F172A;
@@ -26,6 +23,21 @@
   --weather-border-color: #475569;
   --weather-error-color: #F87171;
 }
+
+body {
+  background-color: var(--weather-bg-primary);
+  color: var(--weather-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Shembull për card */
+.card {
+  background-color: var(--weather-bg-secondary);
+  border: 1px solid var(--weather-border-color);
+  color: var(--weather-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 
  
 // * {
