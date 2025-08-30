@@ -17,9 +17,13 @@ export class WeatherService {
     return this.http.get<WeatherData>(`${this.apiUrl}/weather/${cityId}`);
   }
 
- searchCities(query: string): Observable<City[]> {
-  const params = new HttpParams().set('q', query);
-  return this.http.get<City[]>(`${this.apiUrl}/search`, { params }); // ✅ ndryshuar URL
+//  searchCities(query: string): Observable<City[]> {
+//   const params = new HttpParams().set('q', query);
+//   return this.http.get<City[]>(`${this.apiUrl}/search`, { params }); // ✅ ndryshuar URL
+// }
+searchCities(query: string): Observable<City[]> {
+  const params = new HttpParams().set('query', query); // ✅ ndryshuar nga 'q' në 'query'
+  return this.http.get<City[]>(`${this.apiUrl}/search`, { params });
 }
 
   getForecast(cityId: number, days: number = 7): Observable<WeatherData[]> {
