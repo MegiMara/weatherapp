@@ -5,17 +5,17 @@
   /* Light Theme (default) */
   --weather-primary-color: #3B82F6;
   --weather-primary-color-light: rgba(59, 130, 246, 0.1);
-  --weather-bg-primary: #FFFFFF;
-  --weather-bg-secondary: #F8FAFC;
-  --weather-bg-tertiary: #F1F5F9;
+  --weather-bg-primary: #f8f7ff;
+  --weather-bg-secondary: #e3edfd;
+  --weather-bg-tertiary: #d0d5da;
   --weather-bg-hover: #E2E8F0;
   --weather-text-primary: #1E293B;
   --weather-text-secondary: #64748B;
   --weather-border-color: #E2E8F0;
-  --weather-error-color: #EF4444;
-  --weather-success-color: #10B981;
+  --weather-error-color: #b35a5a;
+  --weather-success-color: #58917e;
   --weather-warning-color: #F59E0B;
-  --weather-info-color: #3B82F6;
+  --weather-info-color: #224870;
   --weather-shadow-light: rgba(0, 0, 0, 0.1);
   --weather-shadow-medium: rgba(0, 0, 0, 0.15);
   --weather-shadow-heavy: rgba(0, 0, 0, 0.25);
@@ -24,22 +24,22 @@
 
 /* Dark Theme Overrides */
 [data-theme="dark"] {
-  --weather-primary-color: #60A5FA;
+  --weather-primary-color: #224870;
   --weather-primary-color-light: rgba(96, 165, 250, 0.1);
-  --weather-bg-primary: #0F172A;
+  --weather-bg-primary: #455672;
   --weather-bg-secondary: #1E293B;
   --weather-bg-tertiary: #334155;
   --weather-bg-hover: #475569;
-  --weather-text-primary: #F8FAFC;
-  --weather-text-secondary: #CBD5E1;
-  --weather-border-color: #475569;
-  --weather-error-color: #F87171;
-  --weather-success-color: #34D399;
+  --weather-text-primary: #f5f6f8;
+  --weather-text-secondary: #e3e3e3;
+  --weather-border-color: #c8d9f0;
+  --weather-error-color: #b35a5a;
+  --weather-success-color: #58917e;
   --weather-warning-color: #FBBF24;
   --weather-info-color: #60A5FA;
-  --weather-shadow-light: rgba(0, 0, 0, 0.3);
-  --weather-shadow-medium: rgba(0, 0, 0, 0.4);
-  --weather-shadow-heavy: rgba(0, 0, 0, 0.6);
+  --weather-shadow-light: rgba(255, 255, 255, 0.3);
+  --weather-shadow-medium: rgba(255, 255, 255, 0.4);
+  --weather-shadow-heavy: rgba(255, 255, 255, 0.6);
 }
 
 /* ------------------------------

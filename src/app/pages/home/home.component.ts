@@ -5,7 +5,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WeatherService } from '../../services/weather.service';
 import { PreferencesService } from '../../services/preferences.service';
-import { WeatherData, City } from '../../models/weather.model';
+import { WeatherData, City, UserProfile} from '../../models/weather.model';
+import { UserService } from '../../core/user.service';
 
 // Import child components
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
@@ -33,6 +34,7 @@ import { WeatherDisplayComponent } from './components/weather-display/weather-di
 export class HomeComponent implements OnInit, OnDestroy {
   currentWeather: WeatherData | null = null;
   currentTheme: string = 'light';
+  userProfile: UserProfile | null = null;
   isLoading = false;
   error: string | null = null;
   private destroy$ = new Subject<void>();
@@ -40,6 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private weatherService: WeatherService,
     private preferencesService: PreferencesService,
+    private userService: UserService,
     private router: Router
   ) {}
 
@@ -58,7 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.currentWeather = weather;
       });
 
-    // Load default city weather
+    // Load default city weather (optional - you can set a default city)
     this.loadDefaultWeather();
   }
 
@@ -76,7 +79,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   goToProfile(): void {
-    this.router.navigate(['/user-profile']);  // ✅ navigates to profile page
+    this.router.navigate(['/profile']);
+  }
+
+  // Avatar helper methods
+  hasAvatar(): boolean {
+    return !!(this.userProfile?.avatar && this.userProfile.avatar.trim() !== '');
+  }
+
+  getInitials(): string {
+    if (!this.userProfile?.name) return 'U';
+    
+    const names = this.userProfile.name.split(' ');
+    if (names.length >= 2) {
+      return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+    }
+    return names[0][0].toUpperCase();
   }
 
   private loadWeatherForCity(cityId: number): void {
@@ -100,6 +118,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private loadDefaultWeather(): void {
+    // Optional: Load weather for a default city (e.g., user's location or a major city)
+    // You can remove this if you don't want a default
     const defaultCityId = 1; // Replace with your default city ID
     this.loadWeatherForCity(defaultCityId);
   }
