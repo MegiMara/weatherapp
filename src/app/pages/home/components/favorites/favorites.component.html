@@ -1,41 +1,74 @@
 <div class="favorites-container">
-  <h3 class="favorites-title">Favorite Cities</h3>
+  <div class="favorites-header">
+    <h3 class="favorites-title">
+      <span class="icon">⭐</span>
+      Favorite Cities
+    </h3>
+    <button 
+      *ngIf="favoriteCities.length > 0" 
+      class="refresh-btn" 
+      (click)="refreshFavoritesWeather()"
+      [disabled]="isLoading"
+      title="Refresh weather data"
+    >
+      <span class="refresh-icon" [class.spinning]="isLoading">🔄</span>
+    </button>
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading && favoriteCities.length === 0" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading favorites...</p>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="error" class="error-message" (click)="error = null">
+    <span class="error-icon">⚠️</span>
+    <p>{{ error }}</p>
+    <small>Click to dismiss</small>
+  </div>
   
-  <div class="favorites-list" *ngIf="favoriteCities.length > 0; else emptyState">
+  <!-- Favorites list -->
+  <div class="favorites-list" *ngIf="favoriteCities.length > 0 && !error; else emptyState">
     <div 
-      *ngFor="let city of favoriteCities" 
+      *ngFor="let city of favoriteCities; trackBy: trackByCity" 
       class="favorite-item"
       (click)="selectCity(city)"
+      [class.loading]="isLoading"
     >
       <div class="city-info">
         <div class="city-header">
-          <h4 class="city-name">{{city.name}}</h4>
+          <h4 class="city-name">{{ city.name }}</h4>
           <button 
             class="remove-btn" 
             (click)="removeFavorite(city.id, $event)"
             title="Remove from favorites"
+            type="button"
           >
             ×
           </button>
         </div>
-        <p class="country">{{city.country}}</p>
+        <p class="country">{{ city.country }}</p>
         <div class="weather-info">
-          <span class="temperature">{{getTemperatureDisplay(city.temperature)}}</span>
-          <span class="condition">{{city.condition}}</span>
+          <span class="temperature">{{ getTemperatureDisplay(city.temperature) }}</span>
+          <span class="condition">{{ city.condition }}</span>
+        </div>
+        <div class="last-updated" *ngIf="city.lastUpdated">
+          <small>{{ getLastUpdatedText(city) }}</small>
         </div>
       </div>
       <div class="weather-icon">
-        <span class="icon">{{getWeatherEmoji(city.condition)}}</span>
+        <span class="icon">{{ getWeatherEmoji(city.condition) }}</span>
       </div>
     </div>
   </div>
   
+  <!-- Empty state -->
   <ng-template #emptyState>
-    <div class="empty-state">
+    <div class="empty-state" *ngIf="!isLoading">
       <span class="empty-icon">⭐</span>
       <p>No favorite cities yet</p>
-      <small>Search for cities and add them to favorites</small>
+      <small>Search for cities and add them to favorites by clicking the star icon</small>
     </div>
   </ng-template>
 </div>
-

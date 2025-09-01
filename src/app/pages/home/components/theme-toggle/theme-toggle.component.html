@@ -1,3 +1,15 @@
-  <button class="theme-toggle" (click)="toggleTheme()" [title]="'Switch to ' + (currentTheme === 'light' ? 'dark' : 'light') + ' theme'">
-      <span class="icon">{{currentTheme === 'light' ? '🌙' : '☀️'}}</span>
-    </button>
+<button 
+  class="theme-toggle" 
+  (click)="toggleTheme()" 
+  [class.toggling]="isToggling"
+  [disabled]="isToggling"
+  [title]="'Switch to ' + getThemeLabel() + ' theme'"
+  type="button"
+>
+  <span class="icon" [class.rotating]="isToggling">{{ getThemeIcon() }}</span>
+  
+  <!-- Optional loading indicator -->
+  <div class="loading-overlay" *ngIf="isToggling">
+    <div class="spinner"></div>
+  </div>
+</button>

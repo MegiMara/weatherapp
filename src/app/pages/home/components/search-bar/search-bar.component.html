@@ -1,34 +1,41 @@
 <div class="search-container">
-  <div class="search-input-container">
-    <input 
+  <div class="search-input-wrapper">
+    <input
       type="text"
-      [formControl]="searchControl"
-      placeholder="Search for cities..."
       class="search-input"
+      placeholder="Search for a city..."
+      [(ngModel)]="searchQuery"
+      (input)="onSearchInput($event)"
       (focus)="onFocus()"
       (blur)="onBlur()"
-      (keydown.enter)="searchCity()"
+      (keydown.enter)="onSearchInput($event)"
     />
-    <span 
-      class="material-icons search-icon"
-      (click)="searchCity()"
-    >
-      search
-    </span>
+
+    <!-- Make icon a clickable button -->
+    <button type="button" class="search-icon" (click)="triggerSearch()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="M21 21l-4.35-4.35"></path>
+      </svg>
+    </button>
+
+    <div *ngIf="isSearching" class="search-loading">
+      <div class="spinner"></div>
+    </div>
   </div>
 
-  <div class="suggestions" *ngIf="showSuggestions && suggestions.length > 0">
-    <button 
-      *ngFor="let city of suggestions" 
-      class="suggestion-item"
-      type="button"
-      (mousedown)="selectCity(city)"
+  <div *ngIf="showResults" class="search-results">
+    <div 
+      *ngFor="let city of searchResults" 
+      class="search-result-item"
+      (click)="onCitySelect(city)"
     >
-      <span class="city-name">{{city.name}}</span>
-      <span class="country">{{city.country}}</span>
-    </button>
+      <div class="city-info">
+        <span class="city-name">{{ city.name }}</span>
+        <span class="city-country">{{ city.country }}</span>
+      </div>
+    </div>
   </div>
 </div>
-
 
 

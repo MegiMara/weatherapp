@@ -1,6 +1,105 @@
- <button class="notifications-toggle" 
-            (click)="toggleNotifications()" 
-            [class.enabled]="notificationsEnabled"
-            [title]="notificationsEnabled ? 'Disable notifications' : 'Enable notifications'">
-      <span class="icon">{{notificationsEnabled ? '🔔' : '🔕'}}</span>
-    </button>
+<div class="notifications-container">
+  <button 
+    class="notifications-toggle" 
+    (click)="toggleDropdown($event)" 
+    [class.enabled]="notificationsEnabled"
+    [class.has-alerts]="unreadCount > 0"
+    [disabled]="isToggling"
+    [title]="notificationsEnabled ? 'Notifications enabled' : 'Notifications disabled'"
+  >
+    <span class="icon">
+      {{ notificationsEnabled ? '🔔' : '🔕' }}
+    </span>
+    
+    <!-- Unread count badge -->
+    <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
+    
+    <!-- Loading indicator -->
+    <div class="loading-spinner" *ngIf="isToggling"></div>
+  </button>
+
+  <!-- Notifications Dropdown -->
+  <div class="notifications-dropdown" *ngIf="showDropdown" [@fadeInOut]>
+    <div class="dropdown-content">
+      <!-- Header -->
+      <div class="dropdown-header">
+        <h4>Notifications</h4>
+        <div class="header-actions">
+          <button 
+            class="toggle-btn"
+            (click)="toggleNotifications()"
+            [disabled]="isToggling"
+            type="button"
+          >
+            {{ isToggling ? 'Loading...' : (notificationsEnabled ? 'Disable' : 'Enable') }}
+          </button>
+        </div>
+      </div>
+
+      <div class="dropdown-divider"></div>
+
+      <!-- Notifications Status -->
+      <div class="notification-status">
+        <div class="status-item">
+          <span class="status-icon">
+            {{ notificationsEnabled ? '✅' : '❌' }}
+          </span>
+          <div class="status-text">
+            <strong>{{ notificationsEnabled ? 'Enabled' : 'Disabled' }}</strong>
+            <small>
+              {{ notificationsEnabled 
+                ? 'You will receive weather alerts' 
+                : 'Click Enable to receive weather alerts' }}
+            </small>
+          </div>
+        </div>
+
+        <div class="status-item" *ngIf="notificationsEnabled">
+          <span class="status-icon">🌤️</span>
+          <div class="status-text">
+            <strong>Weather Alerts</strong>
+            <small>Monitoring your favorite cities</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alert Types (when enabled) -->
+      <div class="alert-types" *ngIf="notificationsEnabled">
+        <div class="dropdown-divider"></div>
+        <h5>Alert Types</h5>
+        <div class="alert-type-list">
+          <div class="alert-type">
+            <span class="alert-icon">🌡️</span>
+            <span>Temperature extremes</span>
+          </div>
+          <div class="alert-type">
+            <span class="alert-icon">⛈️</span>
+            <span>Severe weather</span>
+          </div>
+          <div class="alert-type">
+            <span class="alert-icon">🌧️</span>
+            <span>Weather changes</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Permission Info (when not enabled) -->
+      <div class="permission-info" *ngIf="!notificationsEnabled">
+        <div class="dropdown-divider"></div>
+        <div class="info-content">
+          <p>
+            <strong>Get weather alerts for your favorite cities</strong>
+          </p>
+          <ul>
+            <li>Temperature warnings</li>
+            <li>Severe weather alerts</li>
+            <li>Weather condition changes</li>
+          </ul>
+          <small class="privacy-note">
+            * Your browser will request notification permission
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

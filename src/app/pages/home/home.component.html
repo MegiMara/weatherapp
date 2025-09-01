@@ -1,4 +1,4 @@
-<div class="home-container" [attr.data-theme]="currentTheme">
+<!-- <div class="home-container" [attr.data-theme]="currentTheme">
   <header class="header">
     <div class="header-left">
       <h1 class="app-title">WeatherApp</h1>
@@ -23,6 +23,58 @@
       <app-weather-display 
         [weatherData]="currentWeather">
       </app-weather-display>
+    </section>
+  </main>
+</div> -->
+
+<div class="weather-app home-container" [attr.data-theme]="currentTheme">
+  <header class="header">
+    <div class="header-left">
+      <h1 class="app-title">WeatherApp</h1>
+    </div>
+    <div class="header-center">
+      <app-search-bar (citySelected)="onCitySelected($event)"></app-search-bar>
+    </div>
+    <div class="header-right">
+      <app-theme-toggle></app-theme-toggle>
+      <app-temperature-toggle></app-temperature-toggle>
+      <app-notifications-toggle></app-notifications-toggle>
+      <button class="profile-btn" (click)="goToProfile()" type="button">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <circle cx="12" cy="8" r="4"></circle>
+    <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"></path>
+  </svg>
+</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <aside class="sidebar">
+      <app-favorites (citySelected)="onFavoriteCitySelected($event)"></app-favorites>
+    </aside>
+    
+    <section class="weather-section">
+      <!-- Loading indicator -->
+      <div *ngIf="isLoading" class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Loading weather data...</p>
+      </div>
+
+      <!-- Error message -->
+      <div *ngIf="error && !isLoading" class="error-container">
+        <p class="error-message">{{ error }}</p>
+      </div>
+
+      <!-- Weather display -->
+      <app-weather-display 
+        *ngIf="currentWeather && !isLoading && !error"
+        [weatherData]="currentWeather">
+      </app-weather-display>
+
+      <!-- No data message -->
+      <div *ngIf="!currentWeather && !isLoading && !error" class="no-data-container">
+        <p>Search for a city to view weather information</p>
+      </div>
     </section>
   </main>
 </div>

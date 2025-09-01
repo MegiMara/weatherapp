@@ -9,7 +9,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },           // 🌤️ This becomes your main weather page
   { path: 'favorites', component: FavoritesComponent }, // 🌤️ This becomes weather favorites
-  { path: 'user-profile', component: ProfilePictureComponent }, // 🌤️ This becomes user profile
+  { path: 'profile', component: ProfilePictureComponent }, // 🌤️ This becomes user profile
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' },
 ];

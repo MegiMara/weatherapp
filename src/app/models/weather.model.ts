@@ -2,6 +2,8 @@ export interface WeatherData {
   id: number;
   city: string;
   country: string;
+  lat?: number;  // Add latitude
+  lon?: number;  // Add longitude
   temperature: number;
   condition: string;
   description: string;

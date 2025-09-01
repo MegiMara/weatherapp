@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormControl } from '@angular/forms';
-import { Subject, of } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
 import { WeatherService } from '../../../../services/weather.service';
 import { City } from '../../../../models/weather.model';
@@ -9,35 +9,44 @@ import { City } from '../../../../models/weather.model';
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent implements OnInit, OnDestroy {
-  searchControl = new FormControl('');
-  suggestions: City[] = [];
-  showSuggestions = false;
+export class SearchBarComponent implements OnDestroy {
+  @Output() citySelected = new EventEmitter<City>();
+  
+  searchQuery = '';
+  searchResults: City[] = [];
+  isSearching = false;
+  showResults = false;
+  private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
 
-  constructor(private weatherService: WeatherService) {}
-
-  ngOnInit(): void {
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap(query => {
-          if (query && query.length >= 2) {
-            return this.weatherService.searchCities(query);
-          }
-          return of([]);
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(cities => {
-        this.suggestions = cities.slice(0, 5);
-        this.showSuggestions = this.suggestions.length > 0;
-      });
+  constructor(private weatherService: WeatherService) {
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(query => {
+        if (query.length < 2) {
+          return [];
+        }
+        this.isSearching = true;
+        return this.weatherService.searchCities(query);
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: (results) => {
+        this.searchResults = results;
+        this.isSearching = false;
+        this.showResults = results.length > 0;
+      },
+      error: (error) => {
+        console.error('Search error:', error);
+        this.isSearching = false;
+        this.showResults = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -45,56 +54,35 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  onSearchInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.searchQuery = target.value;
+    this.searchSubject.next(this.searchQuery);
+  }
+
+  onCitySelect(city: City): void {
+    this.searchQuery = city.name;
+    this.showResults = false;
+    this.citySelected.emit(city);
+  }
+
   onFocus(): void {
-    if (this.suggestions.length > 0) {
-      this.showSuggestions = true;
+    if (this.searchResults.length > 0) {
+      this.showResults = true;
     }
   }
 
   onBlur(): void {
+    // Delay hiding results to allow for clicks
     setTimeout(() => {
-      this.showSuggestions = false;
-    }, 250);
+      this.showResults = false;
+    }, 200);
   }
 
-  selectCity(city: City): void {
-    this.searchControl.setValue(city.name, { emitEvent: false }); // mos e trigger valueChanges përsëri
-    this.showSuggestions = false;
-
-    this.weatherService.getCurrentWeather(city.id).subscribe(weather => {
-      this.weatherService.setCurrentWeather(weather);
-    });
-  }
-
-//   searchCity(): void {
-//     const query = this.searchControl.value;
-//     if (query && query.length >= 2) {
-//       this.weatherService.searchCities(query).subscribe(cities => {
-//         this.suggestions = cities.slice(0, 5);
-//         this.showSuggestions = this.suggestions.length > 0;
-
-//         // Zgjidh qytetin e parë automatikisht
-//         if (cities.length > 0) {
-//           this.selectCity(cities[0]);
-//         }
-//       });
-//     }
-//   }
-// }
-
- searchCity(): void {
-    const query = this.searchControl.value;
-    console.log('Searching for:', query);  // kontrollon input-in
-
-    if (query && query.length >= 2) {
-      this.weatherService.searchCities(query).subscribe(cities => {
-        console.log('Cities from backend:', cities);  // kontrollon përgjigjen nga backend
-        this.suggestions = cities.slice(0, 5);
-        this.showSuggestions = this.suggestions.length > 0;
-
-        if (cities.length > 0) {
-          this.selectCity(cities[0]);
-        }
-      });
+  // 🔍 New method for magnifying glass button
+  triggerSearch(): void {
+    if (this.searchQuery.trim()) {
+      this.searchSubject.next(this.searchQuery);
     }
-  }}
+  }
+}

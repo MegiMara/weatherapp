@@ -8,6 +8,7 @@ import { UserService } from '../../../../core/user.service';
 
 @Component({
   selector: 'app-weather-display',
+  standalone: true,
   imports: [CommonModule, DatePipe],
   templateUrl: './weather-display.component.html',
   styleUrls: ['./weather-display.component.scss']
@@ -51,9 +52,16 @@ export class WeatherDisplayComponent implements OnInit, OnDestroy {
 
   toggleFavorite(): void {
     if (this.weatherData) {
-      this.userService.updateFavorites(this.weatherData.id, !this.isFavorite).subscribe(updatedProfile => {
-        this.userService.setUserProfile(updatedProfile);
-      });
+      this.userService.updateFavorites(this.weatherData.id, !this.isFavorite)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (updatedProfile) => {
+            this.userService.setUserProfile(updatedProfile);
+          },
+          error: (error) => {
+            console.error('Error updating favorites:', error);
+          }
+        });
     }
   }
 

@@ -1,4 +1,8 @@
+/* ------------------------------
+   Theme Variables (Global)
+------------------------------- */
 :root {
+  /* Light Theme (default) */
   --weather-primary-color: #3B82F6;
   --weather-primary-color-light: rgba(59, 130, 246, 0.1);
   --weather-bg-primary: #FFFFFF;
@@ -9,8 +13,16 @@
   --weather-text-secondary: #64748B;
   --weather-border-color: #E2E8F0;
   --weather-error-color: #EF4444;
+  --weather-success-color: #10B981;
+  --weather-warning-color: #F59E0B;
+  --weather-info-color: #3B82F6;
+  --weather-shadow-light: rgba(0, 0, 0, 0.1);
+  --weather-shadow-medium: rgba(0, 0, 0, 0.15);
+  --weather-shadow-heavy: rgba(0, 0, 0, 0.25);
+  --weather-transition: all 0.3s ease;
 }
 
+/* Dark Theme Overrides */
 [data-theme="dark"] {
   --weather-primary-color: #60A5FA;
   --weather-primary-color-light: rgba(96, 165, 250, 0.1);
@@ -22,25 +34,146 @@
   --weather-text-secondary: #CBD5E1;
   --weather-border-color: #475569;
   --weather-error-color: #F87171;
+  --weather-success-color: #34D399;
+  --weather-warning-color: #FBBF24;
+  --weather-info-color: #60A5FA;
+  --weather-shadow-light: rgba(0, 0, 0, 0.3);
+  --weather-shadow-medium: rgba(0, 0, 0, 0.4);
+  --weather-shadow-heavy: rgba(0, 0, 0, 0.6);
 }
 
+/* ------------------------------
+   Global Page Styles
+------------------------------- */
 body {
   background-color: var(--weather-bg-primary);
   color: var(--weather-text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: var(--weather-transition);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
 }
 
-/* Shembull për card */
-.card {
+/* ------------------------------
+   Common Elements
+------------------------------- */
+.weather-card {
   background-color: var(--weather-bg-secondary);
   border: 1px solid var(--weather-border-color);
   color: var(--weather-text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px var(--weather-shadow-light);
+  transition: var(--weather-transition);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px var(--weather-shadow-medium);
+  }
 }
 
+.weather-btn {
+  background: var(--weather-primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--weather-transition);
 
- 
-// * {
-//   box-sizing: border-box;
-// }
- 
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &.weather-btn-secondary {
+    background: var(--weather-bg-tertiary);
+    color: var(--weather-text-primary);
+
+    &:hover:not(:disabled) {
+      background: var(--weather-bg-hover);
+    }
+  }
+}
+
+.weather-input {
+  background: var(--weather-bg-secondary);
+  border: 1px solid var(--weather-border-color);
+  color: var(--weather-text-primary);
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: var(--weather-transition);
+
+  &:focus {
+    outline: none;
+    border-color: var(--weather-primary-color);
+    box-shadow: 0 0 0 3px var(--weather-primary-color-light);
+  }
+
+  &::placeholder {
+    color: var(--weather-text-secondary);
+  }
+}
+
+/* ------------------------------
+   Weather Display Component
+------------------------------- */
+.weather-display {
+  background: var(--weather-bg-secondary);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 16px var(--weather-shadow-light);
+  color: var(--weather-text-primary);
+  transition: var(--weather-transition);
+
+  /* Example: background overrides by weather condition */
+  &.sunny { background: linear-gradient(135deg, #FEF3C7 0%, #FCD34D 100%); }
+  &.cloudy { background: linear-gradient(135deg, #F3F4F6 0%, #D1D5DB 100%); }
+  &.rainy { background: linear-gradient(135deg, #DBEAFE 0%, #93C5FD 100%); }
+  &.snowy { background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%); }
+  &.stormy { 
+    background: linear-gradient(135deg, #374151 0%, #111827 100%);
+    color: white; 
+  }
+}
+
+/* ------------------------------
+   Profile Page
+------------------------------- */
+.profile-page-container {
+  background: var(--weather-bg-primary);
+  color: var(--weather-text-primary);
+  min-height: 100vh;
+  transition: var(--weather-transition);
+
+  .profile-header,
+  .profile-content,
+  .profile-card {
+    background: var(--weather-bg-secondary);
+    color: var(--weather-text-primary);
+    border: 1px solid var(--weather-border-color);
+    transition: var(--weather-transition);
+  }
+
+  .btn {
+    background: var(--weather-primary-color);
+    color: white;
+
+    &.btn-secondary {
+      background: var(--weather-bg-tertiary);
+      color: var(--weather-text-primary);
+    }
+  }
+
+  input.form-input {
+    background: var(--weather-bg-secondary);
+    color: var(--weather-text-primary);
+    border: 1px solid var(--weather-border-color);
+  }
+}
